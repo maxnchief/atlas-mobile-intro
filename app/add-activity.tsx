@@ -1,14 +1,11 @@
 import { useRouter } from "expo-router";
 import { Button, View } from "react-native";
 
-export default function HomeScreen() {
+export default function AddActivityScreen() {
   const router = useRouter();
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Button
-        title="Add activity"
-        onPress={() => router.push("/add-activity")}
-      />
+      <Button title="Go back" onPress={() => router.back()} />
     </View>
   );
 }
