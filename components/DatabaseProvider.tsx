@@ -1,5 +1,6 @@
 import { Asset } from "expo-asset";
 import * as FileSystem from "expo-file-system";
+import * as SQLite from "expo-sqlite";
 import { useEffect, useState } from "react";
 
 async function loadDatabase() {
@@ -29,12 +30,16 @@ function useDB() {
   return { loaded };
 }
 
-function DatabaseProvider({ children }) {
+function DatabaseProvider({ children }: { children: React.ReactNode }) {
   const { loaded } = useDB();
 
   if (!loaded) {
     return null;
   }
 
-  return <SQLite.SQLiteProvider>{children}</SQLite.SQLiteProvider>;
+  return (
+    <SQLite.SQLiteProvider databaseName="scores.db">
+      {children}
+    </SQLite.SQLiteProvider>
+  );
 }
