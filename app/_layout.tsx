@@ -1,7 +1,8 @@
 import { DatabaseProvider } from "@/components/DatabaseProvider";
+import { Colors } from "@/constants/theme";
 import {
-  DarkTheme,
-  DefaultTheme,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
@@ -18,12 +19,29 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const customTheme = {
+    ...(colorScheme === "dark" ? NavigationDarkTheme : NavigationDefaultTheme),
+    colors: {
+      ...(colorScheme === "dark"
+        ? NavigationDarkTheme.colors
+        : NavigationDefaultTheme.colors),
+      background: Colors[colorScheme ?? "light"].background,
+      primary: Colors[colorScheme ?? "light"].primary,
+      card: Colors[colorScheme ?? "light"].background,
+      text: Colors[colorScheme ?? "light"].text,
+      border: Colors[colorScheme ?? "light"].primary,
+      notification: Colors[colorScheme ?? "light"].secondary,
+    },
+  };
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView
+      style={{
+        flex: 1,
+        backgroundColor: Colors[colorScheme ?? "light"].background,
+      }}
+    >
       <DatabaseProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
+        <ThemeProvider value={customTheme}>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
@@ -35,7 +53,10 @@ export default function RootLayout() {
               options={{ presentation: "modal", title: "Modal" }}
             />
           </Stack>
-          <StatusBar style="auto" />
+          <StatusBar
+            style={colorScheme === "dark" ? "light" : "dark"}
+            backgroundColor={Colors[colorScheme ?? "light"].background}
+          />
         </ThemeProvider>
       </DatabaseProvider>
     </GestureHandlerRootView>

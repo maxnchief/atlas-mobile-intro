@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/theme";
 import { useSetupScoresTable } from "@/hooks/db";
 import { useScores } from "@/hooks/usescores";
 import { useFocusEffect } from "@react-navigation/native";
@@ -5,7 +6,13 @@ import { FlashList } from "@shopify/flash-list";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import React from "react";
-import { Button, Text, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 
 export default function HomeScreen() {
@@ -29,11 +36,13 @@ export default function HomeScreen() {
     setScores([]);
   };
 
+  const colorScheme = useColorScheme() ?? "light";
   return (
     <View
       style={{
         flex: 1,
         padding: 16,
+        backgroundColor: Colors[colorScheme].background,
       }}
     >
       <Text
@@ -74,7 +83,12 @@ export default function HomeScreen() {
                   );
                 }}
               >
-                <Text style={{ color: "white", fontWeight: "bold" }}>
+                <Text
+                  style={{
+                    color: Colors[colorScheme].background,
+                    fontWeight: "bold",
+                  }}
+                >
                   Delete
                 </Text>
               </TouchableOpacity>
@@ -85,16 +99,16 @@ export default function HomeScreen() {
                   style={{
                     marginBottom: 12,
                     alignItems: "center",
-                    backgroundColor: "#f8f9fa",
+                    backgroundColor: Colors[colorScheme].background,
                     borderRadius: 10,
                     borderWidth: 1,
-                    borderColor: "#e0e0e0",
+                    borderColor: Colors[colorScheme].primary,
                     padding: 16,
-                    shadowColor: "#000",
+                    shadowColor: Colors[colorScheme].primary,
                     shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.08,
+                    shadowOpacity: 0.06,
                     shadowRadius: 4,
-                    elevation: 2,
+                    elevation: 1,
                   }}
                 >
                   <Text style={{ fontWeight: "bold", fontSize: 16 }}>
@@ -124,7 +138,7 @@ export default function HomeScreen() {
                   ) : (
                     <Text
                       style={{
-                        color: "#888",
+                        color: Colors[colorScheme].tabIconDefault,
                         fontSize: 14,
                         fontStyle: "italic",
                         marginTop: 8,
@@ -144,6 +158,7 @@ export default function HomeScreen() {
       <Button
         title="Add scores"
         onPress={() => router.push("/add-activity")}
+        color={Colors[colorScheme].primary}
         style={{ marginTop: 16 }}
       />
       <View style={{ height: 12 }} />

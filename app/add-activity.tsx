@@ -1,7 +1,8 @@
+import { Colors } from "@/constants/theme";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useState } from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import { Button, Text, TextInput, View, useColorScheme } from "react-native";
 
 // Helper to robustly parse a Wordle result string
 function parseWordleResult(text: string) {
@@ -70,6 +71,7 @@ export default function AddActivityScreen() {
     setLoading(false);
   }
 
+  const colorScheme = useColorScheme() ?? "light";
   return (
     <View style={{ alignItems: "center", padding: 16 }}>
       <Text style={{ fontSize: 18, marginBottom: 8 }}>
@@ -100,12 +102,14 @@ export default function AddActivityScreen() {
         title={loading ? "Adding..." : "Add Score"}
         onPress={handleSubmit}
         disabled={loading}
+        color={Colors[colorScheme].primary}
       />
       <View style={{ height: 16 }} />
       <Button
         title="Go back"
         onPress={() => router.back()}
         disabled={loading}
+        color={Colors[colorScheme].primary}
       />
     </View>
   );
