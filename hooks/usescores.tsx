@@ -8,17 +8,19 @@ type Score = {
 };
 
 export function useScores() {
-  const [wordle_scores, setScores] = useState([]);
-
+  const [wordle_scores, setScores] = useState<Score[]>([]);
   const db = useSQLiteContext();
 
   function getScores() {
-    return db.getAllSync<Score>("SELECT * FROM wordle_scores");
+    const data = db.getAllSync<Score>("SELECT * FROM wordle_scores");
+    setScores(data);
+    return data;
   }
 
   useEffect(() => {
-    const data = getScores();
-  }, []);
+    getScores();
+    // Optionally, add a subscription/event for table changes if available
+  }, [db]);
 
   return { getScores, wordle_scores };
 }
