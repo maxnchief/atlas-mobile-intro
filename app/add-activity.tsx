@@ -55,12 +55,12 @@ export default function AddActivityScreen() {
       return;
     }
     try {
-      // Insert into wordle_scores table (schema: id, date, score)
+      // Insert into wordle_scores table (schema: id, date, score, grid)
       // Use today's date for the entry
       const today = new Date().toISOString().slice(0, 10);
       await db.runAsync(
-        `INSERT INTO wordle_scores (date, score) VALUES (?, ?)`,
-        [today, parsed.score],
+        `INSERT INTO wordle_scores (date, score, grid) VALUES (?, ?, ?)`,
+        [today, parsed.score, parsed.grid],
       );
       setSuccess(`Score for Wordle #${parsed.wordleNumber} added!`);
       setInput("");
